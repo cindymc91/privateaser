@@ -216,6 +216,20 @@ function updatePrice2(events){
 updatePrice2(events);
 
 
+//-------------------------------------//
+//STEP 3
+
+function updateCommission(events){
+  var comm;
+  for (var i = 0; i < events.length; i++){
+    comm = 0.3 * events[i].price;
+    events[i].commission.insurance = comm/2;
+    events[i].commission.treasury = events[i].persons;
+    events[i].commission.privateaser = comm -   events[i].commission.insurance - events[i].commission.treasury;
+    }
+}
+
+updateCommission(events);
 
 
 
