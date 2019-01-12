@@ -165,17 +165,55 @@ function computePrice (barID, eventID){
   return ev.time * bar.pricePerHour + ev.persons * bar.pricePerPerson;
 }
 
-function editPrice(events){
+function updatePrice(events){
   for (var i = 0; i < events.length; i++){
     events[i].price = computePrice(events[i].barId, events[i].id);
     }
   }
 
-editPrice(events);
+updatePrice(events);
 
 
+//-------------------------------------//
+//STEP 2
 
+function computePrice2(barID, eventID){
+  var bar, ev;
+  for (var i = 0; i < bars.length; i++){
+    if(bars[i].id == barID){
+      bar = bars[i];
+    }
+  }
 
+  for (var i = 0; i < events.length; i++){
+    if(events[i].id == eventID){
+      ev = events[i];
+    }
+  }
+  var newPrice;
+  if(ev.persons > 60){
+    newPrice = ev.time * bar.pricePerHour + ev.persons * bar.pricePerPerson*0.5;
+  }
+  else if(ev.persons > 20 ){
+    newPrice = ev.time * bar.pricePerHour + ev.persons * bar.pricePerPerson*0.7;
+  }
+  else if(ev.persons > 10 ){
+    newPrice = ev.time * bar.pricePerHour + ev.persons * bar.pricePerPerson*0.9;
+  }
+  else {
+    newPrice = ev.time * bar.pricePerHour + ev.persons * bar.pricePerPerson;
+  }
+
+  return newPrice;
+}
+
+function updatePrice2(events){
+  for (var i = 0; i < events.length; i++){
+    events[i].price = computePrice2(events[i].barId, events[i].id);
+    }
+  }
+
+updatePrice2(events);
 
 
 
