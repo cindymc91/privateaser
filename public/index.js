@@ -231,6 +231,60 @@ function updateCommission(events){
 
 updateCommission(events);
 
+//-------------------------------------//
+//STEP 4
+
+function computePriceIfDeductibleOption(barID, eventID){
+  var bar, ev;
+  for (var i = 0; i < bars.length; i++){
+    if(bars[i].id == barID){
+      bar = bars[i];
+    }
+  }
+
+  for (var i = 0; i < events.length; i++){
+    if(events[i].id == eventID){
+      ev = events[i];
+    }
+  }
+
+  var priceDeductible;
+
+  if(ev.options.deductibleReduction == true){
+    priceDeductible = ev.persons;
+    return computePrice2(barID, eventID) + priceDeductible;
+  }
+
+  else{
+    return computePrice2(barID, eventID);
+  }
+}
+
+function updatePrice4(events){
+  for (var i = 0; i < events.length; i++){
+    events[i].price = computePriceIfDeductibleOption(events[i].barId, events[i].id);
+    }
+  }
+
+function updateCommissionIfDeductibleOption(events){
+  var comm;
+  for (var i = 0; i < events.length; i++){
+    if(events[i].options.deductibleReduction == true){
+      comm = 0.3 * (events[i].price - events[i].persons);
+    }
+    else{
+      comm = 0.3 * events[i].price;
+    }
+    events[i].commission.insurance = comm/2;
+    events[i].commission.treasury = events[i].persons;
+    events[i].commission.privateaser = comm - events[i].commission.insurance - events[i].commission.treasury + events[i].persons;
+    }
+}
+
+updatePrice4(events);
+updateCommissionIfDeductibleOption(events);
+
+
 
 
 
