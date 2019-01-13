@@ -284,6 +284,43 @@ function updateCommissionIfDeductibleOption(events){
 updatePrice4(events);
 updateCommissionIfDeductibleOption(events);
 
+//-------------------------------------//
+//STEP 5
+
+function timeToPay(actors, events){
+  var typeActor;
+  var ev;
+  for (var i = 0; i < actors.length; i++){
+    for (var k = 0; k < events.length; k++){
+      if(events[k].id == actors[i].eventId){
+        ev = events[k];
+      }
+    }
+    for(var j = 0; j < actors[i].payment.length; j++){
+      typeActor = actors[i].payment[j].who;
+      switch(typeActor){
+        case "booker":
+          actors[i].payment[j].amount = ev.price;
+          break;
+        case "bar":
+          actors[i].payment[j].amount = ev.price - ev.commission.insurance - ev.commission.treasury - ev.commission.privateaser;
+          break;
+        case "insurance":
+          actors[i].payment[j].amount = ev.commission.insurance;
+          break;
+        case "treasury":
+          actors[i].payment[j].amount = ev.commission.treasury;
+          break;
+        case "privateaser":
+          actors[i].payment[j].amount = ev.commission.privateaser;
+          break;
+      }
+    }
+  }
+}
+
+  timeToPay(actors, events);
+
 
 
 
